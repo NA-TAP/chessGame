@@ -11,11 +11,12 @@ A simple chess game with lots of functionality. It has only castling right now.
 - and more
 
 reqirements:
-python
+python 3
+git
 
 installation:
 ``` bash
 git clone https://github.com/NA-TAP/chessGame.git
 ```
 
-### v1.0.0 chessGame
+### v1.1.0 chessGame
