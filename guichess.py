@@ -79,7 +79,7 @@ class ChessGame:
                         self.canvas.create_text(
                             x1 + self.square_size / 2, y1 + self.square_size / 2,
                             text=unicode_char,
-                            font=("Inter", 48), # Large font size for visibility
+                            font=("Segoe UI Symbol", 48), # Large font size for visibility
                             fill=self.piece_colors[player_color],
                             tags=f"piece_{r}_{c}" # Tag for easy identification
                         )
