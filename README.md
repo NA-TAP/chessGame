@@ -21,4 +21,4 @@ installation:
 git clone https://github.com/NA-TAP/chessGame.git
 ```
 
-### v1.1.0 chessGame
+
