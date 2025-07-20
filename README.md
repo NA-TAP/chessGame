@@ -1,7 +1,9 @@
 # chessGame
-A simple chess game with lots of functionality. It has only castling right now.
+A simple chess game with lots of functionality.
 
 ## Other features i am planning to add:
+- castling
+- move detection
 - promotion
 - en passant
 - pgn loading
