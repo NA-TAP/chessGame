@@ -4,7 +4,6 @@ A simple chess game with lots of functionality.
 ## Other features i am planning to add:
 - gui
 - castling
-- move detection
 - promotion
 - en passant
 - pgn loading
