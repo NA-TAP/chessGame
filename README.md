@@ -12,8 +12,9 @@ A simple chess game with lots of functionality.
 - and more
 
 reqirements:
-python 3
-git
+- python 3
+- git
+- and later maybe also pip modules
 
 installation:
 ``` bash
