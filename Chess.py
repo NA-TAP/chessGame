@@ -276,3 +276,4 @@ if __name__ == "__main__":
 
     game = Game(ai_enabled=ai_enabled)
     game.run()
+
