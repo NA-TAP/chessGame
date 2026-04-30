@@ -76,17 +76,29 @@ class Game:
     
     def make_move(self,move):
         sf,sr,ef,er = move.unpck()
+        if self.board[sr][sf].kind == 'P': # Promotion
+            if self.board[sr][sf].color == WHITE and er == 0:
+                self.board[er][ef]=Piece(input("enter promotion piece in upcase\n> "),WHITE)
+                self.board[sr][sf]=None
+                return None
+            elif self.board[sr][sf].color == BLACK and er == 7:
+                self.board[er][ef]=Piece(input("enter promotion piece in upcase\n> "),BLACK)
+                self.board[sr][sf]=None
+                return None
+                
+
         if self.board[sr][sf].kind == 'K': # remove castling rights
-            if self.board[sr][sf].color == "white":
+            if self.board[sr][sf].color == WHITE:
                 self.board.wks = False
                 self.board.wqs = False
-            elif self.board[sr][sf].color == "black":
+            elif self.board[sr][sf].color == BLACK:
                 self.board.bks = False
                 self.board.bqs = False
         # i wont add rook castle logic yet
 
         self.board[er][ef]=self.board[sr][sf]
         self.board[sr][sf]=None
+        return None
     
     def main(self):
         while True:
