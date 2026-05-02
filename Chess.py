@@ -38,16 +38,16 @@ class Board:
                 [Piece('R',BLACK),Piece('N',BLACK),Piece('B',BLACK),Piece('Q',BLACK),Piece('K',BLACK),Piece('B',BLACK),Piece('N',BLACK),Piece('R',BLACK)],]
 
     def print_board(self):
-        rowsep='  +-+-+-+-+-+-+-+-+'
-        print('  a b c d e f g h')
+        rowsep='  +---+---+---+---+---+---+---+---+'
+        print('    a   b   c   d   e   f   g   h')
         print(rowsep)
         for y,rank in enumerate(self.board):
             print(y+1,"|",end="")
             for x,square in enumerate(rank):
-                if square is None:
-                    print(BLANK,end="|")
+                if self.board[7-y][x] is None:
+                    print(BLANK*3,end="|")
                 else:
-                    print(square,end="|")
+                    print(f" {self.board[7-y][x]} ",end="|")
             print()
             print(rowsep)
     
@@ -80,6 +80,7 @@ class Game:
     
     def make_move(self,move):
         sf,sr,ef,er = move.unpck()
+        capture = not self.board.board[er][ef]
         if self.board.board[sr][sf].kind == 'P': # Promotion
             if self.board.board[sr][sf].color == WHITE and er == 0:
                 self.board.board[er][ef]=Piece(input("enter promotion piece in upcase\n> "),WHITE)
@@ -103,12 +104,12 @@ class Game:
             # so it is if the pawn moves to an EMPTY square. delete the square behind it.
             # if the move is normal. pawns move would get blocked if there was  a piece.
             # and with a capture. it is not an empty square
-            if self.board.board[sr][sf].color == WHITE:
+            if self.board.board[sr][sf].color == WHITE and not capture:
                 self.board.board[er][ef]=self.board.board[sr][sf]
                 self.board.board[er-1][ef]=None
                 self.board.board[sr][sf]=None
                 return None
-            elif self.board.board[sr][sf].color == BLACK and er == 7:
+            elif self.board.board[sr][sf].color == BLACK and not capture:
                 self.board.board[er][ef]=self.board.board[sr][sf]
                 self.board.board[er+1][ef]=None
                 self.board.board[sr][sf]=None
