@@ -16,6 +16,33 @@ class Piece:
     def __str__(self):
         return self.kind.upper() if self.color == WHITE else self.kind.lower()
     
+    def find_unicode_piece(self):
+        if self.kind=="P" and self.color==WHITE:
+            return '\u2659'
+        if self.kind=="N" and self.color==WHITE:
+            return '\u2658'
+        if self.kind=="B" and self.color==WHITE:
+            return '\u2657'
+        if self.kind=="R" and self.color==WHITE:
+            return '\u2656'
+        if self.kind=="Q" and self.color==WHITE:
+            return '\u2655'
+        if self.kind=="K" and self.color==WHITE:
+            return '\u2654'
+        if self.kind=="P" and self.color==BLACK:
+            return '\u265f'
+        if self.kind=="N" and self.color==BLACK:
+            return '\u265e'
+        if self.kind=="B" and self.color==BLACK:
+            return '\u265d'
+        if self.kind=="R" and self.color==BLACK:
+            return '\u265c'
+        if self.kind=="Q" and self.color==BLACK:
+            return '\u265b'
+        if self.kind=="K" and self.color==BLACK:
+            return '\u265a'
+        
+    
 class Board:
     def __init__(self,turn=WHITE):
         self.board = self.new_board()
