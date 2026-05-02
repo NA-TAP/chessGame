@@ -105,15 +105,31 @@ class Game:
                 continue
         return move
     
+    def is_move_legal(self, move):
+        board = self.board.board
+        sf,sr,ef,er = move.unpck()
+        target = board[er][ef]        
+        capture = not (target==None)
+        piece = board[sr][sf]
+        dr = sr-er
+        df = sf-ef
+        if piece.kind == "N": # added knight logic only
+            if (abs(dr),abs(df)) in [(2,1),(1,2)]:
+                return True
+            else:
+                return False
+        return True # everything else is legal
+ 
     def make_move(self,move):
         sf,sr,ef,er = move.unpck()
         capture = not self.board.board[er][ef]
+        
         if self.board.board[sr][sf].kind == 'P': # Promotion
-            if self.board.board[sr][sf].color == WHITE and er == 0:
+            if self.board.board[sr][sf].color == WHITE and er == 7:
                 self.board.board[er][ef]=Piece(input("enter promotion piece in upcase\n> "),WHITE)
                 self.board.board[sr][sf]=None
                 return None
-            elif self.board.board[sr][sf].color == BLACK and er == 7:
+            elif self.board.board[sr][sf].color == BLACK and er == 0:
                 self.board.board[er][ef]=Piece(input("enter promotion piece in upcase\n> "),BLACK)
                 self.board.board[sr][sf]=None
                 return None
@@ -149,7 +165,9 @@ class Game:
     def main(self):
         while True:
             self.board.print_board()
-            self.make_move(self.get_input())
+            move = self.get_input()
+            if self.is_move_legal(move):
+                self.make_move(move)
 
 if __name__ == "__main__":
     chess = Game()
