@@ -16,9 +16,13 @@ class Piece:
     def __str__(self):
         return self.kind.upper() if self.color == WHITE else self.kind.lower()
     
-    def get_unicode_str():
+    def get_unicode_str(self):
         str_to_unicode_W = {"K":"♚","Q":"♛","R":"♜","B":"♝","N":"♞","P":"♟"}
         str_to_unicode_B = {"K":"♔","Q":"♕","R":"♖","B":"♗","N":"♘","P":"♙"}
+        if self.color == WHITE:
+            return str_to_unicode_W[self.kind]
+        if self.color == BLACK:
+            return str_to_unicode_B[self.kind]
     
 class Board:
     def __init__(self,turn=WHITE):
