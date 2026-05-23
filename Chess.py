@@ -16,6 +16,10 @@ class Piece:
     def __str__(self):
         return self.kind.upper() if self.color == WHITE else self.kind.lower()
     
+    def get_unicode_str():
+        str_to_unicode_W = {"K":"♚","Q":"♛","R":"♜","B":"♝","N":"♞","P":"♟"}
+        str_to_unicode_B = {"K":"♔","Q":"♕","R":"♖","B":"♗","N":"♘","P":"♙"}
+    
 class Board:
     def __init__(self,turn=WHITE):
         self.board = self.new_board()
@@ -86,12 +90,41 @@ class Game:
         piece = board[sr][sf]
         dr = sr-er
         df = sf-ef
-        if piece.kind == "N": # added knight logic only
+        if target.color == piece.color:
+            return False # pieces cannot capture pieces of their own color
+        
+        elif piece.kind == "N": # added knight logic only
             if (abs(dr),abs(df)) in [(2,1),(1,2)]:
                 return True
             else:
                 return False
+        elif piece.kind == "P":
+            if piece.color == WHITE:
+                if target: # capture
+                    if (dr,df) in [(1,1),(1,-1)]:
+                        return True
+                    else:
+                        return False
+                else: # not capture
+                    if (dr,df) == (1,0) or (er-1,ef) == Piece("P",BLACK): # the second condition of the OR adds legal move detection for en passant.
+                        return True
+                    else:
+                        return False
+            if piece.color == BLACK:
+                if target: # capture
+                    if (dr,df) in [(-1,1),(-1,-1)]:
+                        return True
+                    else:
+                        return False
+                else: # not capture
+                    if (dr,df) == (-1,0) or (er+1,ef) == Piece("P",WHITE): # the second condition of the OR adds legal move detection for en passant.
+                        return True
+                    else:
+                        return False
         return True # everything else is legal
+    
+    def give_sliding_moves(self, dx, dy, sx, sy):
+        '''Gives a list of sliding moves from sx,sy in direction dx,dy until blocked'''
  
     def make_move(self,move):
         sf,sr,ef,er = move.unpck()
