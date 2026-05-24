@@ -127,9 +127,19 @@ class Game:
                         return False
         return True # everything else is legal
     
-    def give_sliding_moves(self, dx, dy, sx, sy):
+    def give_sliding_moves(self, dr, df, sr, sf):
         '''Gives a list of sliding moves from sx,sy in direction dx,dy until blocked'''
- 
+        bord = self.board.board
+        moves = []
+        moves.append((sr,sf))
+        colr = bord[sf][sr].color
+        target = bord[sf][sr]
+        while target == None or target.color != colr:
+            sr,sf = sr+dr,sf+df
+            moves.append((sr,sf))
+            target = bord[sf][sr]
+        return moves
+
     def make_move(self,move):
         sf,sr,ef,er = move.unpck()
         capture = not self.board.board[er][ef]
