@@ -92,11 +92,12 @@ class Game:
         target = board[er][ef]        
         capture = not (target==None)
         piece = board[sr][sf]
-        dr = sr-er
+        dr = er-sr
         df = sf-ef
-        if target.color == piece.color:
-            return False # pieces cannot capture pieces of their own color
-        
+        if target != None:
+            if target.color == piece.color:
+                return False # pieces cannot capture pieces of their own color
+            
         elif piece.kind == "N": # added knight logic only
             if (abs(dr),abs(df)) in [(2,1),(1,2)]:
                 return True
@@ -104,13 +105,13 @@ class Game:
                 return False
         elif piece.kind == "P":
             if piece.color == WHITE:
-                if target: # capture
+                if capture: # capture
                     if (dr,df) in [(1,1),(1,-1)]:
                         return True
                     else:
                         return False
                 else: # not capture
-                    if (dr,df) == (1,0) or (er-1,ef) == Piece("P",BLACK): # the second condition of the OR adds legal move detection for en passant.
+                    if (dr,df) == (1,0):
                         return True
                     else:
                         return False
@@ -121,7 +122,7 @@ class Game:
                     else:
                         return False
                 else: # not capture
-                    if (dr,df) == (-1,0) or (er+1,ef) == Piece("P",WHITE): # the second condition of the OR adds legal move detection for en passant.
+                    if (dr,df) == (-1,0):
                         return True
                     else:
                         return False
@@ -142,7 +143,7 @@ class Game:
 
     def make_move(self,move):
         sf,sr,ef,er = move.unpck()
-        capture = not self.board.board[er][ef]
+        capture = bool(self.board.board[er][ef])
         
         if self.board.board[sr][sf].kind == 'P': # Promotion
             if self.board.board[sr][sf].color == WHITE and er == 7:
