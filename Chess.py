@@ -50,7 +50,7 @@ class Board:
         print('    a   b   c   d   e   f   g   h')
         print(rowsep)
         for y,rank in enumerate(self.board):
-            print(y+1,"|",end="")
+            print(HEIGHT-(y),"|",end="")
             for x,square in enumerate(rank):
                 if self.board[7-y][x] is None:
                     print(BLANK*3,end="|")
@@ -187,7 +187,7 @@ class Game:
         while True:
             self.board.print_board()
             move = self.get_input()
-            if self.is_move_legal(move):
+            if self.is_move_legal(move) or True: # i'm doing or true for sometime efore the legalmove detection is fully furnished. i'ts equivalent to just commenting it out
                 self.make_move(move)
 
 if __name__ == "__main__":
