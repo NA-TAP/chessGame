@@ -1,4 +1,4 @@
-# chessGame
+# ♟️ chessGame
 Object oriented chess game made in Python
 
 ## Other features i am planning to add:
@@ -11,12 +11,12 @@ Object oriented chess game made in Python
 - fairy chess
 - and more
 
-reqirements:
+## 📄 reqirements:
 - python 3
 - git
 - and later maybe also pip modules
 
-installation:
+## 📥 installation:
 ``` bash
 git clone https://github.com/NA-TAP/chessGame.git
 ```
