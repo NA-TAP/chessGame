@@ -25,8 +25,8 @@ class Piece:
             return str_to_unicode_B[self.kind]
     
 class Board:
-    def __init__(self,turn=WHITE):
-        self.board = self.new_board()
+    def __init__(self,turn=WHITE,board=None):
+        self.board = self.new_board() if board is None else board
         self.turn = turn
         #useful for special moves later on
         self.wks = True
@@ -70,8 +70,8 @@ class Move:
         return (self.sf,self.sr,self.ef,self.er)
     
 class Game:
-    def __init__(self):
-        self.board = Board() 
+    def __init__(self, board=None):
+        self.board = Board() if board is None else board 
 
     def get_input(self):
         while True:
@@ -111,7 +111,7 @@ class Game:
                     else:
                         return False
                 else: # not capture
-                    if (dr,df) in [(1,0),(2,0)]:
+                    if (dr,df) == (1,0):
                         return True
                     else:
                         return False
@@ -122,7 +122,7 @@ class Game:
                     else:
                         return False
                 else: # not capture
-                    if (dr,df) in [(-1,0),(-2,0)]:
+                    if (dr,df) == (-1,0):
                         return True
                     else:
                         return False
@@ -133,12 +133,21 @@ class Game:
         bord = self.board.board
         moves = []
         moves.append((sr,sf))
-        colr = bord[sf][sr].color
+        colr = bord[sf][sr].color if bord[sf][sr] != None else None
         target = bord[sf][sr]
-        while target == None or target.color != colr:
+        while target == None or target.color != colr or not (-1<sf<8 and -1<sr<8):
             sr,sf = sr+dr,sf+df
-            moves.append((sr,sf))
-            target = bord[sf][sr]
+            try:
+                moves.append((sr,sf))
+                target = bord[sf][sr]
+            except:
+                break
+        if (target == None or target.color != colr) and (-1<sf<8 and -1<sr<8):
+            try:
+                moves.append((sr,sf))
+                target = bord[sf][sr]
+            except:
+                pass
         return moves
 
     def make_move(self,move):
@@ -191,8 +200,27 @@ class Game:
             move = self.get_input()
             if self.is_move_legal(move) or True: # i'm doing or true for sometime before the legalmove detection is fully furnished. i'ts equivalent to just commenting it out
                 self.make_move(move)
+    
+    def testmode(self):
+        while True:
+            print(self.give_sliding_moves(1,1,7,0))
+            input()
+            sys.exit()
 
 if __name__ == "__main__":
-    chess = Game()
-    chess.main()       
+    mode = input("What mode? r for regular play or t for test mode")    
+    if mode == "r":
+        chess = Game()
+        chess.main()
+    else:
+        chess = Game(board=Board(board=[
+                [None,None,None,None,None,None,None,None],
+                [None,None,None,None,None,None,None,None],
+                [None,None,None,None,None,None,None,None],
+                [None,None,None,None,None,None,None,None],
+                [None,None,None,Piece('B',WHITE),None,None,None,None],
+                [None,None,None,None,None,None,None,None],
+                [None,None,None,None,None,None,None,None],
+                [Piece('B',WHITE),None,None,None,None,None,None,None]],))
+        chess.testmode()   
 
