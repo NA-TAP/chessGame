@@ -111,7 +111,7 @@ class Game:
                     else:
                         return False
                 else: # not capture
-                    if (dr,df) == (1,0):
+                    if (dr,df) in [(1,0),(2,0)]:
                         return True
                     else:
                         return False
@@ -122,7 +122,7 @@ class Game:
                     else:
                         return False
                 else: # not capture
-                    if (dr,df) == (-1,0):
+                    if (dr,df) in [(-1,0),(-2,0)]:
                         return True
                     else:
                         return False
@@ -142,7 +142,10 @@ class Game:
         return moves
 
     def make_move(self,move):
+        self.board.enpass = False
         sf,sr,ef,er = move.unpck()
+        dr = er-sr
+        df = sf-ef
         capture = bool(self.board.board[er][ef])
         
         if self.board.board[sr][sf].kind == 'P': # Promotion
@@ -164,10 +167,9 @@ class Game:
                 self.board.bks = False
                 self.board.bqs = False
         # i wont add rook castle logic yet
-        if self.board.board[sr][sf].kind == 'P': # Using logic for en passant
-            # so it is if the pawn moves to an EMPTY square. delete the square behind it.
-            # if the move is normal. pawns move would get blocked if there was  a piece.
-            # and with a capture. it is not an empty square
+        if self.board.board[sr][sf].kind == 'P':            
+            if df == 0 and abs(dr) == 2:
+                self.board.enpass = True
             if self.board.board[sr][sf].color == WHITE and not capture:
                 self.board.board[er][ef]=self.board.board[sr][sf]
                 self.board.board[er-1][ef]=None
@@ -187,7 +189,7 @@ class Game:
         while True:
             self.board.print_board()
             move = self.get_input()
-            if self.is_move_legal(move) or True: # i'm doing or true for sometime efore the legalmove detection is fully furnished. i'ts equivalent to just commenting it out
+            if self.is_move_legal(move) or True: # i'm doing or true for sometime before the legalmove detection is fully furnished. i'ts equivalent to just commenting it out
                 self.make_move(move)
 
 if __name__ == "__main__":
